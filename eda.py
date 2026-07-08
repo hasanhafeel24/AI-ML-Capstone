@@ -1,44 +1,65 @@
 import pandas as pd
 
-# Load the dataset
+# Load dataset
 df = pd.read_csv("data/StudentPerformanceFactors.csv")
 
-print("=" * 50)
+print("=" * 60)
 print("FIRST 5 ROWS")
-print("=" * 50)
+print("=" * 60)
 print(df.head())
 
 print("\n")
 
-print("=" * 50)
+print("=" * 60)
+print("LAST 5 ROWS")
+print("=" * 60)
+print(df.tail())
+
+print("\n")
+
+print("=" * 60)
 print("DATASET SHAPE")
-print("=" * 50)
+print("=" * 60)
 print(df.shape)
 
 print("\n")
 
-print("=" * 50)
+print("=" * 60)
 print("COLUMN NAMES")
-print("=" * 50)
-print(df.columns)
+print("=" * 60)
+print(df.columns.tolist())
 
 print("\n")
 
-print("=" * 50)
-print("DATA INFORMATION")
-print("=" * 50)
-print(df.info())
+print("=" * 60)
+print("DATA TYPES")
+print("=" * 60)
+print(df.dtypes)
 
 print("\n")
 
-print("=" * 50)
+print("=" * 60)
+print("DATASET INFORMATION")
+print("=" * 60)
+df.info()
+
+print("\n")
+
+print("=" * 60)
 print("SUMMARY STATISTICS")
-print("=" * 50)
+print("=" * 60)
 print(df.describe())
 
 print("\n")
 
-print("=" * 50)
+print("=" * 60)
 print("MISSING VALUES")
-print("=" * 50)
+print("=" * 60)
 print(df.isnull().sum())
+
+print("\n")
+
+print("=" * 60)
+print("DUPLICATE ROWS")
+print("=" * 60)
+print(df.duplicated().sum())
