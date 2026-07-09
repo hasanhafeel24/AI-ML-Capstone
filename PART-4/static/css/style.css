@@ -1,31 +1,107 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
 
-background:#eef3f8;
+    font-family:Arial, Helvetica, sans-serif;
 
-font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(
+        135deg,
+        #667eea,
+        #764ba2
+    );
+
+    min-height:100vh;
+}
+
+.container{
+
+    max-width:900px;
 
 }
 
 .card{
 
-border:none;
+    border:none;
 
-border-radius:20px;
+    border-radius:25px;
 
-}
+    background:rgba(255,255,255,.95);
 
-.btn-primary{
+    backdrop-filter:blur(15px);
 
-padding:15px;
-
-font-size:18px;
-
-border-radius:12px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
 
 }
 
 .display-2{
 
-font-weight:bold;
+    font-weight:bold;
+
+}
+
+.btn-primary{
+
+    background:#5b6cff;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    font-size:20px;
+
+    transition:.3s;
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+
+}
+
+.form-control{
+
+    border-radius:12px;
+
+    padding:12px;
+
+}
+
+.progress{
+
+    border-radius:20px;
+
+}
+
+.progress-bar{
+
+    font-weight:bold;
+
+}
+
+.list-group-item{
+
+    border:none;
+
+}
+
+.lead{
+
+    color:white;
+
+}
+
+.display-4{
+
+    color:white;
+
+    font-weight:bold;
 
 }
