@@ -1,55 +1,16 @@
-# PART 1 - Data Collection & Exploratory Data Analysis (EDA)
+# PART 1
 
-## Objective
+## Data Cleaning & Exploratory Data Analysis
 
-The objective of Part 1 is to understand, clean, and visualize the Student Performance dataset before applying Machine Learning models.
+Completed Tasks
 
----
+- Dataset loading
+- Missing value checking
+- Duplicate removal
+- Exploratory Data Analysis
+- Correlation analysis
+- Visualization
 
-## Dataset
+Output
 
-- Dataset Name: Student Performance Factors
-- Source: Kaggle
-- File: StudentPerformanceFactors.csv
-
----
-
-## Tasks Completed
-
-- Loaded the dataset using Pandas
-- Explored dataset structure
-- Checked data types
-- Identified missing values
-- Removed duplicate records
-- Saved cleaned dataset
-- Performed Exploratory Data Analysis (EDA)
-- Generated multiple visualizations
-- Created Correlation Heatmap
-
----
-
-## Visualizations
-
-- Exam Score Distribution
-- Attendance Distribution
-- Gender Distribution
-- Exam Score Box Plot
-- Hours Studied vs Exam Score
-- Correlation Heatmap
-
----
-
-## Technologies Used
-
-- Python
-- Pandas
-- Matplotlib
-- Seaborn
-
----
-
-## Output
-
-- Cleaned Dataset
-- EDA Report
-- Visualization Images
+Clean dataset and visualizations.

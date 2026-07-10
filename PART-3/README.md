@@ -1,30 +1,15 @@
-# Part 3 – LLM Integration & Structured Outputs
+# PART 3
 
-## Objective
-Integrate a Large Language Model (LLM) API to generate structured JSON output.
+## Structured LLM Output
 
-## Technologies
-- Python
-- Google Gemini API
-- python-dotenv
-- Pydantic
+Completed Tasks
 
-## Files
-- llm_structured.py
-- .env.example
-- requirements.txt
+- Gemini API Integration
+- Environment Variables
+- JSON Parsing
+- Retry Logic
+- Pydantic Validation
 
-## Run
+Output
 
-```bash
-pip install -r requirements.txt
-python llm_structured.py
-```
-
-## Environment Variable
-
-Create a `.env` file:
-
-```env
-GEMINI_API_KEY=YOUR_API_KEY
-```
+Validated structured JSON response.
