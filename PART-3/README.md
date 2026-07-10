@@ -1,27 +1,30 @@
-# PART 3 - Flask Web Application
+# Part 3 – LLM Integration & Structured Outputs
 
 ## Objective
-
-Build a web application that predicts student exam scores using the trained machine learning model.
+Integrate a Large Language Model (LLM) API to generate structured JSON output.
 
 ## Technologies
+- Python
+- Google Gemini API
+- python-dotenv
+- Pydantic
 
-- Flask
-- HTML
-- CSS
-- Scikit-learn Pipeline
-- Joblib
+## Files
+- llm_structured.py
+- .env.example
+- requirements.txt
 
-## Features
+## Run
 
-- User-friendly input form
-- Accepts student information
-- Uses trained ML model
-- Displays predicted exam score
+```bash
+pip install -r requirements.txt
+python llm_structured.py
+```
 
-## Output
+## Environment Variable
 
-Example:
+Create a `.env` file:
 
-Predicted Exam Score:
-70.46
+```env
+GEMINI_API_KEY=YOUR_API_KEY
+```
