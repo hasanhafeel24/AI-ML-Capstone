@@ -1,36 +1,158 @@
 import os
-
-from guardrails import validate_input, generate_response, log_usage
-
+import requests
+import joblib
+import pandas as pd
 from dotenv import load_dotenv
-from google import genai
 
-from guardrails import validate_input, generate_response
+# ============================================
+# Load Environment Variables
+# ============================================
 
-# Load environment variables
 load_dotenv()
 
-# Create Gemini client
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
+API_KEY = os.getenv("LLM_API_KEY")
 
-try:
+URL = "https://openrouter.ai/api/v1/chat/completions"
 
-    user_prompt = input("Ask Gemini: ")
+MODEL = "openai/gpt-4.1-mini"
 
-    user_prompt = validate_input(user_prompt)
+# ============================================
+# Reusable LLM Function
+# ============================================
 
-    response = generate_response(client, user_prompt)
+def call_llm(system_prompt, user_prompt, temperature=0.0, max_tokens=512):
 
-    log_usage(user_prompt, response)
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
 
-    print("\n========== GEMINI RESPONSE ==========\n")
-    print(response.text)
+    payload = {
+        "model": MODEL,
+        "messages": [
+            {
+                "role": "system",
+                "content": system_prompt
+            },
+            {
+                "role": "user",
+                "content": user_prompt
+            }
+        ],
+        "temperature": temperature,
+        "max_tokens": max_tokens
+    }
 
-except Exception as e:
-    import logging
+    response = requests.post(
+        URL,
+        headers=headers,
+        json=payload
+    )
 
-    logging.error(str(e))
+    if response.status_code != 200:
+        print("Status Code:", response.status_code)
+        print(response.text)
+        return None
 
-    print("\nError:", e)
+    return response.json()["choices"][0]["message"]["content"]
+
+
+# ============================================
+# Load Trained Model
+# ============================================
+
+model = joblib.load("best_model.pkl")
+
+print("✅ Model loaded successfully.")
+
+# ============================================
+# Sample Student
+# ============================================
+
+student = pd.DataFrame([
+    {
+        "Hours_Studied": 8,
+        "Attendance": 92,
+        "Parental_Involvement": "High",
+        "Access_to_Resources": "High",
+        "Extracurricular_Activities": "Yes",
+        "Sleep_Hours": 7,
+        "Previous_Scores": 85,
+        "Motivation_Level": "High",
+        "Internet_Access": "Yes",
+        "Tutoring_Sessions": 2,
+        "Family_Income": "Medium",
+        "Teacher_Quality": "Good",
+        "School_Type": "Public",
+        "Peer_Influence": "Positive",
+        "Physical_Activity": 3,
+        "Learning_Disabilities": "No",
+        "Parental_Education_Level": "College",
+        "Distance_from_Home": "Near",
+        "Gender": "Male"
+    }
+])
+
+# ============================================
+# Predict
+# ============================================
+
+prediction = model.predict(student)[0]
+probability = model.predict_proba(student)[0]
+
+print("\nPrediction :", prediction)
+print("Probability:", probability)
+
+# ============================================
+# Ask LLM for Explanation
+# ============================================
+
+system_prompt = """
+You are an educational AI assistant.
+
+Return ONLY valid JSON.
+
+Do not write markdown.
+
+Return exactly this structure:
+
+{
+  "prediction": "",
+  "confidence": "",
+  "explanation": "",
+  "study_tips": [
+      "",
+      "",
+      ""
+  ]
+}
+"""
+
+user_prompt = f"""
+Prediction: {"Pass" if prediction==1 else "Fail"}
+
+Confidence:
+Pass = {probability[1]:.2%}
+
+Generate the JSON only.
+"""
+
+reply = call_llm(system_prompt, user_prompt)
+
+print("\n==============================")
+print("AI EXPLANATION")
+print("==============================\n")
+
+import json
+
+response = json.loads(reply)
+
+print("\nPrediction :", response["prediction"])
+print("Confidence :", response["confidence"])
+print("\nExplanation:")
+print(response["explanation"])
+
+print("\nStudy Tips")
+
+for i, tip in enumerate(response["study_tips"], 1):
+    print(f"{i}. {tip}")
