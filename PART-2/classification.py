@@ -215,3 +215,67 @@ comparison = pd.DataFrame({
 })
 
 print(comparison)
+
+# ==========================================================
+# Bootstrap Confidence Interval for AUC Difference
+# ==========================================================
+
+import numpy as np
+
+print("\n" + "=" * 60)
+print("BOOTSTRAP CONFIDENCE INTERVAL (AUC DIFFERENCE)")
+print("=" * 60)
+
+bootstrap_differences = []
+
+for i in range(500):
+
+    indices = np.random.choice(
+        len(y_test),
+        size=len(y_test),
+        replace=True
+    )
+
+    y_sample = y_test.iloc[indices]
+
+    prob_base = probabilities[indices]
+
+    prob_reg = reg_probabilities[indices]
+
+    try:
+
+        auc_base = roc_auc_score(y_sample, prob_base)
+        auc_reg = roc_auc_score(y_sample, prob_reg)
+
+        bootstrap_differences.append(
+            auc_base - auc_reg
+        )
+
+    except ValueError:
+        # Skip samples that contain only one class
+        continue
+
+bootstrap_differences = np.array(bootstrap_differences)
+
+mean_difference = bootstrap_differences.mean()
+
+lower = np.percentile(
+    bootstrap_differences,
+    2.5
+)
+
+upper = np.percentile(
+    bootstrap_differences,
+    97.5
+)
+
+print(f"Mean AUC Difference : {mean_difference:.6f}")
+print(f"95% CI Lower Bound  : {lower:.6f}")
+print(f"95% CI Upper Bound  : {upper:.6f}")
+
+if lower > 0 or upper < 0:
+    print("\nConfidence interval excludes zero.")
+    print("Difference between the models is statistically consistent.")
+else:
+    print("\nConfidence interval includes zero.")
+    print("Difference between the models may not be statistically significant.")

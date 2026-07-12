@@ -35,7 +35,7 @@ numerical_cols = X.select_dtypes(exclude=["object"]).columns
 
 preprocessor = ColumnTransformer(
     transformers=[
-        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+        ("cat", OneHotEncoder(drop="first", handle_unknown="ignore"), categorical_cols),
         ("num", "passthrough", numerical_cols)
     ]
 )
